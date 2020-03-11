@@ -58,7 +58,91 @@ namespace BowmanBlain_ConvertedData
             }
             Console.WriteLine("File has created in " + _directory + "BowmanBlain_ConvertedDate.json");            //print info about saving file
         }
+        public static void Rating()
+        {
 
+            bool running = true;
+            string input = "";
+            while (running)
+            {
+                Console.Clear();
+                Console.WriteLine("Hello <user>, How would you like to sort the data:");
+                Console.WriteLine("1.List Restaurants Alphabetically(Show Rating Next To Name)");
+                Console.WriteLine("2.List Restaurants in Reverse Alphabetical(Show Rating Next To Name)");
+                Console.WriteLine("3.Sort Restaurants From Best to Worst(Show Rating Next To Name)");
+                Console.WriteLine("4.Sort Restaurants From Worst to Best(Show Rating Next To Name)");
+                Console.WriteLine("5.Show Only X and Up");
+                Console.WriteLine("6.Exit");
+                int number;
+                do
+                {
+                    Console.Write("Choose an action:  ");
+                    input = Console.ReadLine().ToLower();
+
+                }
+                while (!(int.TryParse(input, out number) && (number >= 1 && number <= 6)) && !(input.ToString().ToLower() == "list restaurants alphabetically") && !(input.ToString().ToLower() == "list restaurants in reverse alphabetical") && !(input.ToString().ToLower() == "sort restaurants from best to worst") && !(input.ToString().ToLower() == "sort restaurants from worst to best") && !(input.ToString().ToLower() == "show only x and up") && !(input.ToString().ToLower() == "exit"));
+
+                Console.WriteLine();
+
+                switch (input)
+                {
+
+                    case "1":
+                    case "list restaurants alphabetically":
+                        {
+                            string select = "SELECT RestaurantName, IFNULL(OverallRating, 0) FROM restaurantprofiles order by RestaurantName;"; //select to database    
+                            Select(select);
+                        }
+                        break;
+                    case "2":
+                    case "list restaurants in reverse alphabetical":
+                        {
+                            string select = "SELECT RestaurantName,  IFNULL(OverallRating, 0) FROM restaurantprofiles order by RestaurantName DESC;"; //select to database    
+                            Select(select);
+                        }
+                        break;
+                    case "3":
+                    case "sort restaurants from best to worst":
+                        {
+                            string select = "SELECT RestaurantName, IFNULL(OverallRating, 0) FROM restaurantprofiles order by OverallRating DESC;";//select to database    
+                            Select(select);
+                        }
+                        break;
+                    case "4":
+                    case "sort restaurants from worst to best":
+                        {
+                            string select = "SELECT RestaurantName, IFNULL(OverallRating, 0) FROM restaurantprofiles order by OverallRating ASC;";//select to database    
+                            Select(select);
+                        }
+                        break;
+                    case "5":
+                    case "show only x and up":
+                        {
+                            SubMenu();
+                        }
+                        break;
+                    case "6":
+                    case "exit":
+                        {
+                            running = false;
+                        }
+                        break;
+
+                    default:
+                        return;
+
+                }
+                Console.WriteLine("");
+                Console.WriteLine("Press The Space Bar To Resort The Data, Go Back To The Menu, etc...");
+                ConsoleKeyInfo cons = Console.ReadKey();
+                while (cons.Key != ConsoleKey.Spacebar)  //space bar check
+                {
+                    cons = Console.ReadKey();
+                }
+                Console.WriteLine("");
+            }
+
+        }
         private static void MainMenu()
         {
             bool running = true;
