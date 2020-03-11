@@ -11,72 +11,10 @@ namespace BowmanBlain_ConvertedData
 {
     class Program
     {
-        static string _directory = @"../../../output/";
+        static string _directory = @"../../../output/"; //directory to create file
         static void Main(string[] args)
         {
-            bool running = true;
-            string input = "";
-            while (running)
-            {
-                Console.Clear();
-                Console.WriteLine("Hello Admin, What Would You Like To Do Today?");
-                Console.WriteLine("1. Convert The Restaurant Profile Table From SQL To JSON");
-                Console.WriteLine("2. Showcase Our 5 Star Rating System");
-                Console.WriteLine("3. Showcase Our Animated Bar Graph Review System");
-                Console.WriteLine("4. Play A Card Game");
-                Console.WriteLine("5. Exit");
-                int number;
-                do
-                {
-                    Console.Write("Choose an action:  ");
-                    input = Console.ReadLine().ToLower();
-
-                }
-                while (!(int.TryParse(input, out number) && (number >= 1 && number <= 5)) && !(input.ToString().ToLower() == "Convert") && !(input.ToString().ToLower() == "Showcase Our 5 Star Rating System") && !(input.ToString().ToLower() == "Showcase Our Animated Bar Graph Review System") && !(input.ToString().ToLower() == "Play A Card Game") && !(input.ToString().ToLower() == "exit"));
-
-                switch (input)
-                {
-
-                    case "1":
-                    case "Convert":
-                        {
-                            SqlToJson();
-                        }
-                        break;
-                    case "2":
-                    case "Showcase Our 5 Star Rating System":
-                        {
-                            Console.WriteLine("2.0 Data Visualization Practice");
-                        }
-                        break;
-                    case "3":
-                    case "Showcase Our Animated Bar Graph Review System":
-                        {
-                            Console.WriteLine("3.0  Data Visualization Practice");
-
-                        }
-                        break;
-                    case "4":
-                    case "Play A Card Game":
-                        {
-                            Console.WriteLine("4.0  Data Visualization Practice");
-                        }
-                        break;
-                    case "5":
-                    case "exit":
-                        {
-
-                            running = false;
-                        }
-                        break;
-
-                    default:
-                        return;
-
-                }
-                Console.WriteLine("Press The Return Key To Go Back To The Main Menu...");
-                Console.ReadKey();
-            }
+            MainMenu();
         }
         public static void SqlToJson()
         {
@@ -120,6 +58,76 @@ namespace BowmanBlain_ConvertedData
             }
             Console.WriteLine("File has created in " + _directory + "BowmanBlain_ConvertedDate.json");            //print info about saving file
         }
+    private static void MainMenu()
+    {
+        bool running = true;
+        string input = "";
+        while (running)
+        {
+            Console.Clear();
+            Console.WriteLine("Hello Admin, What Would You Like To Do Today?");
+            Console.WriteLine("1. Convert The Restaurant Profile Table From SQL To JSON");
+            Console.WriteLine("2. Showcase Our 5 Star Rating System");
+            Console.WriteLine("3. Showcase Our Animated Bar Graph Review System");
+            Console.WriteLine("4. Play A Card Game");
+            Console.WriteLine("5. Exit");
+            int number;
+            do
+            {
+                Console.Write("Choose an action:  ");
+                input = Console.ReadLine().ToLower();
+
+            }
+            while (!(int.TryParse(input, out number) && (number >= 1 && number <= 5)) && !(input.ToString().ToLower() == "convert") && !(input.ToString().ToLower() == "showcase our 5 star rating system") && !(input.ToString().ToLower() == "showcase our animated bar graph review system") && !(input.ToString().ToLower() == "play a card game") && !(input.ToString().ToLower() == "exit"));
+
+            Console.WriteLine();
+
+            switch (input)
+            {
+
+                case "1":
+                case "convert":
+                    {
+
+                        SqlToJson(); //"1.0 Data Visualization Practice"
+                    }
+                    break;
+                case "2":
+                case "showcase our 5 star rating system":
+                    {
+                        Rating(); //"2.0 Data Visualization Practice"
+                    }
+                    break;
+                case "3":
+                case "showcase our animated bar graph review system":
+                    {
+                        Console.WriteLine("3.0  Data Visualization Practice");
+
+                    }
+                    break;
+                case "4":
+                case "play a card game":
+                    {
+                        Console.WriteLine("4.0  Data Visualization Practice");
+                    }
+                    break;
+                case "5":
+                case "exit":
+                    {
+
+                        running = false;
+
+                    }
+                    break;
+
+                default:
+                    return;
+
+            }
+            Console.WriteLine("Press The Return Key To Go Back To The Main Menu...");
+            Console.ReadKey();
+        }
     }
 }
+
 
