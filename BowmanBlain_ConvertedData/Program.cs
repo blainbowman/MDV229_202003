@@ -295,6 +295,25 @@ namespace BowmanBlain_ConvertedData
                 Console.ReadKey();
             }
         }
+        private static void Select(string select)
+        {
+            DataBase db1 = new DataBase();    //class connect to database instance creation 
+            db1.OpenConnection(); //connect to database
+            MySqlDataReader reader = db1.DataReader(select); //select to database
+
+            while (reader.Read()) //reading data from database
+            {
+                int point = Decimal.ToInt32(Math.Round(decimal.Parse(reader[1].ToString()), MidpointRounding.AwayFromZero)); //round
+                Stars s = new Stars(); //class instance creation
+                Console.ForegroundColor = s.Color(point); // star colors
+                Console.WriteLine(reader[0].ToString().PadRight(40) + ": " + s.Star(point)); //to format the information in an organized way, and to look more like a table
+                Console.ResetColor(); // reset color
+            }
+
+            reader.Close();
+            db1.CloseConnection();
+        }
+
     }
 }
 
