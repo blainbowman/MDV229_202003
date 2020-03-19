@@ -124,7 +124,7 @@ namespace BowmanBlain_ConvertedData
                     case "6":
                     case "exit":
                         {
-                            running = false;
+                            MainMenu();
                         }
                         break;
 
@@ -200,7 +200,7 @@ namespace BowmanBlain_ConvertedData
                     case "exit":
                         {
 
-                            running = false;
+                            Environment.Exit(1);
 
                         }
                         break;
@@ -283,7 +283,7 @@ namespace BowmanBlain_ConvertedData
                     case "6":
                     case "back":
                         {
-                            running = false;
+                            Rating();
                         }
                         break;
 
