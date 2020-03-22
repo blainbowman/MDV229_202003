@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using System.Timers;
+
 
 namespace BowmanBlain_ConvertedData
 {
@@ -165,9 +167,70 @@ namespace BowmanBlain_ConvertedData
                     while (!(int.TryParse(input, out number) && (number >= 1 && number <= 4)) && !(input.ToString().ToLower() == "show average of reviews for restaurants") && !(input.ToString().ToLower() == "dinner spinner (selects random restaurant)") && !(input.ToString().ToLower() == "top 10 restaurants") && !(input.ToString().ToLower() == "back to main menu"));
 
                     Console.WriteLine();
+
+                    switch (input)
+                    {
+
+                        case "1":
+                        case "show average of reviews for restaurants":
+                            {
+                                //select to database   
+                                string select = "SELECT DISTINCT (t2.restaurantname) FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id order by t2.restaurantname";
+                                Select1(select);
+                                Select3();
+                                Animat();
+                            }
+                            break;
+                        case "2":
+                        case "dinner spinner (selects random restaurant)":
+                            {
+                                //select to database   
+                                string select = "SELECT DISTINCT (t2.restaurantname) FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id order by t2.restaurantname";
+                                Select1(select);
+
+                                //We determine the length of the names list. We generate a random number in terms of the length of the list.Assign a random number to the variable index. 
+                                //We determine the value of an element from the list of names by index. Save the value from the list to a variable.We clear the current list of names.
+                                //We form a new list of names and add the value from the variable to it.
+                                var random = new Random();
+                                int index = random.Next(names.Count);
+                                string namesi = names[index];
+                                names.Clear();
+                                names.Add(namesi);
+                                Select3();
+                                Animat();
+                            }
+                            break;
+                        case "3":
+                        case "top 10 restaurants":
+                            {
+                                //select to database   
+                                string select = "SELECT t2.restaurantname FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id group by t2.restaurantname  order by AVG(reviewScore) DESC limit 10";
+                                Select1(select);
+                                Select3();
+                                Animat();
+                            }
+                            break;
+                        case "4":
+                        case "back to main menu":
+                            {
+                                running = false;
+                            }
+                            break;
+                        default:
+                            return;
+
+                    }
+                    Console.WriteLine("");
+                    Console.WriteLine("Press The Space Bar To See More Restaurant Reviews...");
+                    ConsoleKeyInfo cons = Console.ReadKey();
+                    while (cons.Key != ConsoleKey.Spacebar)  //space bar check
+                    {
+                        cons = Console.ReadKey();
+                    }
+                    Console.WriteLine("");
                 }
             }
-                }
+        }
         private static void MainMenu()
         {
             bool running = true;
