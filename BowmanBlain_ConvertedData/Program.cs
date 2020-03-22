@@ -230,8 +230,8 @@ namespace BowmanBlain_ConvertedData
                     Console.WriteLine("");
                 }
             }
-        }
-        private static void MainMenu()
+            }
+            private static void MainMenu()
         {
             bool running = true;
             string input = "";
@@ -393,16 +393,116 @@ namespace BowmanBlain_ConvertedData
             {
                 int point = Decimal.ToInt32(Math.Round(decimal.Parse(reader[1].ToString()), MidpointRounding.AwayFromZero)); //round
                 Stars s = new Stars(); //class instance creation
+                Console.Write(reader[0].ToString() + ": "); //to format the information in an organized way, and to look more like a table
+                // Move the cursor back to the left, where it started to draw the animation to begin with.
+                // Once we redraw, and redraw, and redraw, it will look animated.
+                // We are doing this because we are uisng a Console.Write to stay on the same line, so we move back, and redraw over top of the old one.
+                Console.CursorLeft = 40;
+                Console.Write("*****");
                 Console.ForegroundColor = s.Color(point); // star colors
-                Console.WriteLine(reader[0].ToString().PadRight(40) + ": " + s.Star(point)); //to format the information in an organized way, and to look more like a table
+                // Move the cursor back to the left, where it started to draw the animation to begin with.
+                // Once we redraw, and redraw, and redraw, it will look animated.
+                // We are doing this because we are uisng a Console.Write to stay on the same line, so we move back, and redraw over top of the old one.
+                Console.CursorLeft = 40;
+                Console.Write(s.Star(point)); //to format the information in an organized way, and to look more like a table
                 Console.ResetColor(); // reset color
+                Console.WriteLine("");
+
             }
 
             reader.Close();
             db1.CloseConnection();
         }
 
-    }
+        private static void Select1(string select)
+        {
+
+            DataBase db1 = new DataBase();    //class connect to database instance creation 
+            db1.OpenConnection(); //connect to database
+            MySqlDataReader reader = db1.DataReader(select); //select to database
+
+            while (reader.Read()) //reading data from database
+            {
+                //We write the data received from the database into the names list.
+                string name = reader[0].ToString();
+                names.Add(name.ToString());
+
+
+            }
+            reader.Close();
+            db1.CloseConnection();
+        }
+        private static void Select3()
+        {
+            //If directory graphs are not empty, then clear it before writing.
+            if (Graphs.graphs.Count > 0)
+                Graphs.graphs.Clear();
+            //For each value from the names list, we form a query into the database.
+            //The resulting values ​​are stored in the list of balls.
+            for (int i = 0; i < names.Count; i++)
+            {
+                DataBase db1 = new DataBase();    //class connect to database instance creation 
+                db1.OpenConnection(); //connect to database
+                string select1 = "SELECT    IFNULL(round(t1.reviewScore/10,0),0) FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id where t2.restaurantname=\"" + names[i] + "\"order by t2.restaurantname;"; //select to database
+                MySqlDataReader reader = db1.DataReader(select1);
+                //Console.Write(names[i]);
+                List<int> balls = new List<int>();
+                while (reader.Read()) //reading data from database
+                {
+                    int ball = int.Parse(reader[0].ToString());
+                    balls.Add(ball);
+                }
+                //Save data in dictonary graphs. Key = restaurant name from the names list. 
+                //Value = list of balls with rating values ​​from the base.
+                Graphs.graphs.Add(names[i].ToString(), balls);
+
+                reader.Close();
+                db1.CloseConnection();
+            }
+            names.Clear();
+
+        }
+        private static void Animat()
+        {
+            Console.WriteLine("Press any key after animation to continue...");
+            Console.WriteLine(" ");
+            foreach (var key in Graphs.graphs)
+            {
+                //display the key value on the screen
+                Console.Write(key.Key);
+                Console.Write(" ");
+
+                //We determine the sum of all rating values ​​for key = restaurant
+                int a = 0;
+                decimal b = 0;
+                for (int i = 0; i < 100; i++)
+                {
+                    a = key.Value[i];
+                    b += a;
+
+                }
+                Console.Write(" ");
+
+                //we find the average rating for the restaurant
+                Animation.mid = Decimal.ToInt32(Math.Round(b / 100, MidpointRounding.AwayFromZero));
+                Console.CursorLeft = 60;
+                Console.Write("Average rating: " + Animation.mid);
+                Animation.res_name = key.Key;
+                //Create Timer
+                Animation.SetTimer();
+
+                //If you like, hide the cursor so it does not get in the way of the graph, but be careful...it's invisible so do not make the user do something where they need the curso after you make it invisible.
+                Console.CursorVisible = true;
+
+                //This is needed for the timer to work
+                //The code needs to stop running, or wait for a response in order to play the animation
+                Console.ReadLine();
+                Animation.myAnimationTimer.Stop();
+                Console.ResetColor();
+            }
+
+            }
+        }
 }
 
 
