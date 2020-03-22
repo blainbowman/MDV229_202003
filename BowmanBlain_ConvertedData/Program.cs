@@ -142,7 +142,32 @@ namespace BowmanBlain_ConvertedData
                 Console.WriteLine("");
             }
 
-        }
+            public static void AnimatedBarGraph()
+            {
+
+                bool running = true;
+                string input = "";
+                while (running)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Hello <user>, How would you like to sort the data:");
+                    Console.WriteLine("1.Show Average of Reviews for Restaurants");
+                    Console.WriteLine("2.Dinner Spinner (Selects Random Restaurant)");
+                    Console.WriteLine("3.Top 10 Restaurants");
+                    Console.WriteLine("4.Back To Main Menu");
+                    int number;
+                    do
+                    {
+                        Console.Write("Choose an action:  ");
+                        input = Console.ReadLine().ToLower();
+
+                    }
+                    while (!(int.TryParse(input, out number) && (number >= 1 && number <= 4)) && !(input.ToString().ToLower() == "show average of reviews for restaurants") && !(input.ToString().ToLower() == "dinner spinner (selects random restaurant)") && !(input.ToString().ToLower() == "top 10 restaurants") && !(input.ToString().ToLower() == "back to main menu"));
+
+                    Console.WriteLine();
+                }
+            }
+                }
         private static void MainMenu()
         {
             bool running = true;
