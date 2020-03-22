@@ -7,18 +7,22 @@ using System.IO;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System.Timers;
-
+using System.Threading;
 
 namespace BowmanBlain_ConvertedData
 {
+
     class Program
     {
-        static string _directory = @"../../../output/"; //directory to create file
+        public static List<string> names = new List<string>();
+        static string _directory = @"../../output/"; //directory to create file
         static void Main(string[] args)
         {
+
             MainMenu();
+
         }
-        public static void SqlToJson()
+        public static void Json()
         {
 
             Restaurants_DB rest = new Restaurants_DB(); //class instance creation 
@@ -60,6 +64,8 @@ namespace BowmanBlain_ConvertedData
             }
             Console.WriteLine("File has created in " + _directory + "BowmanBlain_ConvertedDate.json");            //print info about saving file
         }
+
+
         public static void Rating()
         {
 
@@ -126,7 +132,7 @@ namespace BowmanBlain_ConvertedData
                     case "6":
                     case "exit":
                         {
-                            MainMenu();
+                            running = false;
                         }
                         break;
 
@@ -144,94 +150,97 @@ namespace BowmanBlain_ConvertedData
                 Console.WriteLine("");
             }
 
-            public static void AnimatedBarGraph()
+        }
+
+        public static void AnimatedBarGraph()
+        {
+
+            bool running = true;
+            string input = "";
+            while (running)
             {
-
-                bool running = true;
-                string input = "";
-                while (running)
+                Console.Clear();
+                Console.WriteLine("Hello <user>, How would you like to sort the data:");
+                Console.WriteLine("1.Show Average of Reviews for Restaurants");
+                Console.WriteLine("2.Dinner Spinner (Selects Random Restaurant)");
+                Console.WriteLine("3.Top 10 Restaurants");
+                Console.WriteLine("4.Back To Main Menu");
+                int number;
+                do
                 {
-                    Console.Clear();
-                    Console.WriteLine("Hello <user>, How would you like to sort the data:");
-                    Console.WriteLine("1.Show Average of Reviews for Restaurants");
-                    Console.WriteLine("2.Dinner Spinner (Selects Random Restaurant)");
-                    Console.WriteLine("3.Top 10 Restaurants");
-                    Console.WriteLine("4.Back To Main Menu");
-                    int number;
-                    do
-                    {
-                        Console.Write("Choose an action:  ");
-                        input = Console.ReadLine().ToLower();
+                    Console.Write("Choose an action:  ");
+                    input = Console.ReadLine().ToLower();
 
-                    }
-                    while (!(int.TryParse(input, out number) && (number >= 1 && number <= 4)) && !(input.ToString().ToLower() == "show average of reviews for restaurants") && !(input.ToString().ToLower() == "dinner spinner (selects random restaurant)") && !(input.ToString().ToLower() == "top 10 restaurants") && !(input.ToString().ToLower() == "back to main menu"));
-
-                    Console.WriteLine();
-
-                    switch (input)
-                    {
-
-                        case "1":
-                        case "show average of reviews for restaurants":
-                            {
-                                //select to database   
-                                string select = "SELECT DISTINCT (t2.restaurantname) FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id order by t2.restaurantname";
-                                Select1(select);
-                                Select3();
-                                Animat();
-                            }
-                            break;
-                        case "2":
-                        case "dinner spinner (selects random restaurant)":
-                            {
-                                //select to database   
-                                string select = "SELECT DISTINCT (t2.restaurantname) FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id order by t2.restaurantname";
-                                Select1(select);
-
-                                //We determine the length of the names list. We generate a random number in terms of the length of the list.Assign a random number to the variable index. 
-                                //We determine the value of an element from the list of names by index. Save the value from the list to a variable.We clear the current list of names.
-                                //We form a new list of names and add the value from the variable to it.
-                                var random = new Random();
-                                int index = random.Next(names.Count);
-                                string namesi = names[index];
-                                names.Clear();
-                                names.Add(namesi);
-                                Select3();
-                                Animat();
-                            }
-                            break;
-                        case "3":
-                        case "top 10 restaurants":
-                            {
-                                //select to database   
-                                string select = "SELECT t2.restaurantname FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id group by t2.restaurantname  order by AVG(reviewScore) DESC limit 10";
-                                Select1(select);
-                                Select3();
-                                Animat();
-                            }
-                            break;
-                        case "4":
-                        case "back to main menu":
-                            {
-                                running = false;
-                            }
-                            break;
-                        default:
-                            return;
-
-                    }
-                    Console.WriteLine("");
-                    Console.WriteLine("Press The Space Bar To See More Restaurant Reviews...");
-                    ConsoleKeyInfo cons = Console.ReadKey();
-                    while (cons.Key != ConsoleKey.Spacebar)  //space bar check
-                    {
-                        cons = Console.ReadKey();
-                    }
-                    Console.WriteLine("");
                 }
+                while (!(int.TryParse(input, out number) && (number >= 1 && number <= 4)) && !(input.ToString().ToLower() == "show average of reviews for restaurants") && !(input.ToString().ToLower() == "dinner spinner (selects random restaurant)") && !(input.ToString().ToLower() == "top 10 restaurants") && !(input.ToString().ToLower() == "back to main menu"));
+
+                Console.WriteLine();
+
+                switch (input)
+                {
+
+                    case "1":
+                    case "show average of reviews for restaurants":
+                        {
+                            //select to database   
+                            string select = "SELECT DISTINCT (t2.restaurantname) FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id order by t2.restaurantname";
+                            Select1(select);
+                            Select3();
+                            Animat();
+                        }
+                        break;
+                    case "2":
+                    case "dinner spinner (selects random restaurant)":
+                        {
+                            //select to database   
+                            string select = "SELECT DISTINCT (t2.restaurantname) FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id order by t2.restaurantname";
+                            Select1(select);
+
+                            //We determine the length of the names list. We generate a random number in terms of the length of the list.Assign a random number to the variable index. 
+                            //We determine the value of an element from the list of names by index. Save the value from the list to a variable.We clear the current list of names.
+                            //We form a new list of names and add the value from the variable to it.
+                            var random = new Random();
+                            int index = random.Next(names.Count);
+                            string namesi = names[index];
+                            names.Clear();
+                            names.Add(namesi);
+                            Select3();
+                            Animat();
+                        }
+                        break;
+                    case "3":
+                    case "top 10 restaurants":
+                        {
+                            //select to database   
+                            string select = "SELECT t2.restaurantname FROM restaurantreviews as t1 inner join restaurantprofiles as t2 on t1.restaurantid =t2.id group by t2.restaurantname  order by AVG(reviewScore) DESC limit 10";
+                            Select1(select);
+                            Select3();
+                            Animat();
+                        }
+                        break;
+                    case "4":
+                    case "back to main menu":
+                        {
+                            running = false;
+                        }
+                        break;
+                    default:
+                        return;
+
+                }
+                Console.WriteLine("");
+                Console.WriteLine("Press The Space Bar To See More Restaurant Reviews...");
+                ConsoleKeyInfo cons = Console.ReadKey();
+                while (cons.Key != ConsoleKey.Spacebar)  //space bar check
+                {
+                    cons = Console.ReadKey();
+                }
+                Console.WriteLine("");
             }
-            }
-            private static void MainMenu()
+
+        }
+
+        private static void MainMenu()
         {
             bool running = true;
             string input = "";
@@ -261,8 +270,7 @@ namespace BowmanBlain_ConvertedData
                     case "1":
                     case "convert":
                         {
-
-                            SqlToJson(); //"1.0 Data Visualization Practice"
+                            Json(); //"1.0 Data Visualization Practice"
                         }
                         break;
                     case "2":
@@ -274,8 +282,7 @@ namespace BowmanBlain_ConvertedData
                     case "3":
                     case "showcase our animated bar graph review system":
                         {
-                            Console.WriteLine("3.0  Data Visualization Practice");
-
+                            AnimatedBarGraph(); //"3.0  Data Visualization Practice"
                         }
                         break;
                     case "4":
@@ -288,7 +295,7 @@ namespace BowmanBlain_ConvertedData
                     case "exit":
                         {
 
-                            Environment.Exit(1);
+                            running = false;
 
                         }
                         break;
@@ -371,7 +378,7 @@ namespace BowmanBlain_ConvertedData
                     case "6":
                     case "back":
                         {
-                            Rating();
+                            running = false;
                         }
                         break;
 
@@ -383,6 +390,7 @@ namespace BowmanBlain_ConvertedData
                 Console.ReadKey();
             }
         }
+
         private static void Select(string select)
         {
             DataBase db1 = new DataBase();    //class connect to database instance creation 
@@ -464,6 +472,8 @@ namespace BowmanBlain_ConvertedData
         }
         private static void Animat()
         {
+            ReaderWriterLock rw = new ReaderWriterLock();
+
             Console.WriteLine("Press any key after animation to continue...");
             Console.WriteLine(" ");
             foreach (var key in Graphs.graphs)
@@ -496,13 +506,16 @@ namespace BowmanBlain_ConvertedData
 
                 //This is needed for the timer to work
                 //The code needs to stop running, or wait for a response in order to play the animation
+                Thread.Sleep(8000);
                 Console.ReadLine();
                 Animation.myAnimationTimer.Stop();
+
                 Console.ResetColor();
-            }
+
 
             }
+
         }
+    }
+
 }
-
-
