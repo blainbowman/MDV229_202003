@@ -7,7 +7,7 @@ namespace BowmanBlain_ConvertedData
     class Deck
     {
         static Random n = new Random(); //value to shuffle cadrs
-        private Card[] kalod = new Card[52];  //deck of cards
+        private Card[] deck = new Card[52];  //deck of cards
         public Deck()
         {
             for (mast mast = mast.Spades; mast <= mast.Hearts; mast++) // for all cards suits
@@ -31,5 +31,10 @@ namespace BowmanBlain_ConvertedData
                 deck[k1] = d;
             }
         }
+        public Card[] F //get deck of cards after shuffle
+        {
+            get { return deck; }
+        }
+
     }
 }
