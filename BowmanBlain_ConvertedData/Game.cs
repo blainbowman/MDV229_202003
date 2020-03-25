@@ -74,5 +74,22 @@ namespace BowmanBlain_ConvertedData
             }
 
             db1.CloseConnection();
+
+            User temp = new User(); //The players sort and list from first place (1st) to last place (4th) based on their total card point value.
+            for (int i = 0; i < players.Length - 1; i++)
+            {
+                for (int j = i + 1; j < players.Length; j++)
+                {
+                    if (players[i].total < players[j].total)
+                    {
+                        temp = players[i];
+                        players[i] = players[j];
+                        players[j] = temp;
+                    }
+                }
+            }
+            Console.WriteLine("Card Game Results:"); //print game results
+            Console.WriteLine("");
         }
+    }
 }
