@@ -8,6 +8,7 @@ namespace BowmanBlain_ConvertedData
 {
     class Card
     {
+
         #region
         static Dictionary<mast, char> mastdictionary = new Dictionary<mast, char>() //cards suits
         {
@@ -46,12 +47,107 @@ namespace BowmanBlain_ConvertedData
         {
             get { return number; }
         }
+
         public Card(mast Mast, number number)
         {
             this.mast = Mast;
             this.number = number;
         }
 
+        public string realwhide() //return result in the format
+        {
+            return realwhide3() + mastdictionary[Mast];
+        }
+        public string realwhide1() //return result in the format
+        {
+            return numberdictionary[Number].ToString();
+        }
+        public char realwhide2() //return result in the format
+        {
+            return mastdictionary[Mast];
 
+        }
+        public string realwhide3() //return result in the format
+        {
+            string key = "";
+            var myKey = numberdictionary.FirstOrDefault(x => x.Value == numberdictionary[number]).Key;
+            switch (myKey)
+            {
+                case number.Two:
+                    {
+                        key = "2";
+                    }
+                    break;
+                case number.Three:
+                    {
+                        key = "3";
+                    }
+                    break;
+                case number.Four:
+                    {
+                        key = "4";
+                    }
+                    break;
+                case number.Five:
+                    {
+                        key = "5";
+                    }
+                    break;
+                case number.Six:
+                    {
+                        key = "6";
+                    }
+                    break;
+                case number.Seven:
+                    {
+                        key = "7";
+                    }
+                    break;
+                case number.Eight:
+                    {
+                        key = "8";
+                    }
+                    break;
+                case number.Nine:
+                    {
+                        key = "9";
+                    }
+                    break;
+                case number.Ten:
+                    {
+                        key = "10";
+                    }
+                    break;
+                case number.Jack:
+                    {
+                        key = "J";
+                    }
+                    break;
+
+                case number.Queen:
+                    {
+                        key = "Q";
+                    }
+                    break;
+
+                case number.King:
+                    {
+                        key = "K";
+                    }
+                    break;
+
+                case number.Ace:
+                    {
+                        key = "A";
+                    }
+                    break;
+
+            }
+            return key;
+        }
+        public string realwhide4() //return result in the format
+        {
+            return "Total: " + realwhide3() + " Mast:" + mastdictionary[Mast];
+        }
     }
 }
