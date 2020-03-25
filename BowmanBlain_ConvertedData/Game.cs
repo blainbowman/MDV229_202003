@@ -90,6 +90,48 @@ namespace BowmanBlain_ConvertedData
             }
             Console.WriteLine("Card Game Results:"); //print game results
             Console.WriteLine("");
+            int totalchec = 0;
+            for (int i = 0; i < 4; i++) //place
+            {
+                string place = "";
+                switch (i)
+                {
+                    case 0:
+                        {
+                            place = "1st";
+                        }
+                        break;
+                    case 1:
+                        {
+                            place = "2nd";
+                        }
+                        break;
+                    case 2:
+                        {
+                            place = "3rd";
+                        }
+                        break;
+                    case 3:
+                        {
+                            place = "4th";
+                        }
+                        break;
+
+                }
+                Console.Write(place + " Place: "); //print place
+                Console.Write(players[i].ToString()); //print information about player
+                Console.CursorLeft = 70;
+                Console.Write(players[i].ToString1()); //score of player
+                Console.WriteLine("");
+                Animation1.SetTimer(); //start animation with cards
+
+                Console.CursorVisible = true;
+                Thread.Sleep(7000);
+                Console.ReadLine();
+                Animation1.myAnimationTimer.Stop();
+                Console.ResetColor();
+                Console.WriteLine("");
+            }
         }
     }
 }
