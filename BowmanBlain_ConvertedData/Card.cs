@@ -36,5 +36,22 @@ namespace BowmanBlain_ConvertedData
         #endregion
         private mast mast;
         private number number;
+
+        public mast Mast //get cards suit
+        {
+            get { return mast; }
+        }
+
+        public number Number //get cards value 
+        {
+            get { return number; }
+        }
+        public Card(mast Mast, number number)
+        {
+            this.mast = Mast;
+            this.number = number;
+        }
+
+
     }
 }
