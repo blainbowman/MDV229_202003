@@ -40,6 +40,39 @@ namespace BowmanBlain_ConvertedData
 
 
         }
+        public void game()
+        {
+            User[] players = new User[4]; // Array of players
 
-    }
+            pld[0] = pl1; //put list cards handed out to one player to list cards handed out to players
+            pld[1] = pl2; //put list cards handed out to one player to list cards handed out to players
+            pld[2] = pl3; //put list cards handed out to one player to list cards handed out to players
+            pld[3] = pl4; //put list cards handed out to one player to list cards handed out to players
+            DataBase db1 = new DataBase();    //class connect to database instance creation 
+            db1.OpenConnection(); //connect to database
+            Random rand = new Random();
+            int a = 0;
+            for (int i = 0; i < 4; i++) //pull RANDOM four players from the database of restaurant reviewers
+            {
+                User user = new User();  //class instance creation 
+                a = rand.Next(1, 100); //random id of user in the database
+                string select1 = "SELECT First, Last FROM samplerestaurantdatabase.restaurantreviewers where id=" + a; //select to database
+                MySqlDataReader reader = db1.DataReader(select1);
+                while (reader.Read()) //reading data from database
+                {
+                    user.total = 0; //score player
+                    user.player = i + 1; //id player
+                    user.first_name = reader[0].ToString(); //first_name player
+                    user.last_name = reader[1].ToString(); //last_name player
+                    for (int ii = 0; ii < pld[i].Count; ii++) //sum value of all player's cards
+                    {
+                        user.total += int.Parse(pld[i][ii].realwhide1());
+                    }
+                    players[i] = user; //save players in array
+                }
+                reader.Close();
+            }
+
+            db1.CloseConnection();
+        }
 }
