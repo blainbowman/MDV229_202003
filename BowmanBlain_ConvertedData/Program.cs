@@ -11,6 +11,14 @@ using System.Threading;
 
 namespace BowmanBlain_ConvertedData
 {
+    enum mast
+    {
+        Spades, Clubs, Diamonds, Hearts
+    }
+    enum number
+    {
+        Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace
+    }
 
     class Program
     {
