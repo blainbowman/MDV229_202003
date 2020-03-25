@@ -15,7 +15,7 @@ namespace BowmanBlain_ConvertedData
     class Program
     {
         public static List<string> names = new List<string>();
-        static string _directory = @"../../output/"; //directory to create file
+        static string _directory = @"../../../output/"; //directory to create file
         static void Main(string[] args)
         {
 
@@ -506,7 +506,8 @@ namespace BowmanBlain_ConvertedData
 
                 //This is needed for the timer to work
                 //The code needs to stop running, or wait for a response in order to play the animation
-                Thread.Sleep(8000);
+                //Thread.Sleep faster animation = 1000/second
+                Thread.Sleep(10000);
                 Console.ReadLine();
                 Animation.myAnimationTimer.Stop();
 
