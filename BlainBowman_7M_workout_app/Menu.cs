@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
-
 namespace BlainBowman_7M_workout_app
 {
     class Menu
     {
+        //Database connection instance
         private static Database dbCon = Database.Instance();
+        //Current user date
         private static string currentUser = null;
         private static int currentUserId = 0;
         public static void SignUpAndLogInMenu()
         {
             Console.Clear();
-            dbCon.DatabaseName = "Blain_Bowman_7M_Workout_App";
+            dbCon.DatabaseName = "Blain_Bowman_7M_Workout_App5";
+
+            //Sign up and log in menu
+
             Console.WriteLine("Welcome!!!");
             Console.WriteLine("Let's get started.");
             Console.WriteLine("What do you want to do? ");
@@ -39,6 +43,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static void ShowTotalBodyExercises()
         {
+            //Pulling the total body exercise name and printing the output to the user
             if (dbCon.IsConnect())
             {
                 string query = "SELECT exercise_id, exercise_name FROM total_body_exercises";
@@ -53,6 +58,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static void ShowLowerBodyExercises()
         {
+            //Pulling the lower body exercise name and printing the output to the user
             if (dbCon.IsConnect())
             {
                 string query = "SELECT exercise_id, exercise_name FROM lower_body_exercises";
@@ -67,6 +73,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static void ShowUpperBodyExercises()
         {
+            //Pulling the upper body exercise name and printing the output to the user
             if (dbCon.IsConnect())
             {
                 string query = "SELECT exercise_id, exercise_name FROM upper_body_exercises";
@@ -81,6 +88,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static void ShowCoreExercises()
         {
+            //Pulling the core exercise name and printing the output to the user
             if (dbCon.IsConnect())
             {
                 string query = "SELECT exercise_id, exercise_name FROM core_exercises";
@@ -95,6 +103,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static void AddWorkout()
         {
+            //Adding workout by prompting the user of 3 total, 3 lower, 3 upper body exercises and a 3 core exercises, like in the official 7M workout app
             Console.Clear();
             Console.WriteLine("Pick 3 total body exercises (0/3): ");
             ShowTotalBodyExercises();
@@ -151,6 +160,7 @@ namespace BlainBowman_7M_workout_app
             switch (userOptionNumber)
             {
                 case 1:
+                    //Prompting the user of the workout name, number of cycles, rest interval
                     Console.Clear();
                     string workoutname = Validation.ValidateString("Name your workout: ");
                     int numberOfCycles = Validation.GetInt(1, 10, "Pick the number of cycles (1-10): ");
@@ -158,6 +168,7 @@ namespace BlainBowman_7M_workout_app
 
                     if (dbCon.IsConnect())
                     {
+                        //Pushing workout data into database
                         string query = "INSERT INTO workouts(user_id, name_of_the_workout, rest_interval, number_of_cycles) VALUES(@user_id, @name_of_the_workout, @rest_interval, @number_of_cycles)";
                         var cmd = new MySqlCommand(query, dbCon.Connection);
                         cmd.Parameters.AddWithValue("@user_id", currentUserId);
@@ -166,6 +177,7 @@ namespace BlainBowman_7M_workout_app
                         cmd.Parameters.AddWithValue("@number_of_cycles", numberOfCycles);
                         cmd.ExecuteNonQuery();
 
+                        //Pushing workout exercises data into database
                         query = "INSERT INTO custom_workout_exercises(workout_id, first_total_body_exercise, second_total_body_exercise, third_total_body_exercise, first_lower_body_exercise, second_lower_body_exercise, third_lower_body_exercise, first_upper_body_exercise, second_upper_body_exercise, third_upper_body_exercise, first_core_exercise, second_core_exercise, third_core_exercise) VALUES(@workout_id, @first_total_body_exercise, @second_total_body_exercise, @third_total_body_exercise, @first_lower_body_exercise, @second_lower_body_exercise, @third_lower_body_exercise, @first_upper_body_exercise, @second_upper_body_exercise, @third_upper_body_exercise, @first_core_exercise, @second_core_exercise, @third_core_exercise)";
                         cmd = new MySqlCommand(query, dbCon.Connection);
                         cmd.Parameters.AddWithValue("@workout_id", GetWorkoutId(workoutname));
@@ -196,6 +208,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static string GetTotalBodyExerciseName(int id)
         {
+            //Pulling the total body exercise name by the given workout id
             string result = "";
             if (dbCon.IsConnect())
             {
@@ -213,6 +226,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static string GetLowerBodyExerciseName(int id)
         {
+            //Pulling the lower body exercise name by the given workout id
             string result = "";
             if (dbCon.IsConnect())
             {
@@ -230,6 +244,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static string GetUpperBodyExerciseName(int id)
         {
+            //Pulling the upper body exercise name by the given workout id
             string result = "";
             if (dbCon.IsConnect())
             {
@@ -247,6 +262,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static string GetCoreExerciseName(int id)
         {
+            //Pulling the core exercise name by the given workout id
             string result = "";
             if (dbCon.IsConnect())
             {
@@ -264,6 +280,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static void ShowWorkoutExercises(int workout_id)
         {
+            //Displaying a chosen workout data
             Console.Clear();
             List<int> exercises = new List<int>();
             if (dbCon.IsConnect())
@@ -320,6 +337,7 @@ namespace BlainBowman_7M_workout_app
         }
         public static void ShowCustomWorkouts()
         {
+            //Displaying the list of workout and the option to add a new workout
             Console.Clear();
             int count = 1;
             if (dbCon.IsConnect())
@@ -378,10 +396,12 @@ namespace BlainBowman_7M_workout_app
         }
         public static void StartWorkout()
         {
+            //There is going to be a method that implements workout timer here
             MainMenu();
         }
         public static void MainMenu()
         {
+            //Main menu for the 7M workout app 
             Console.Clear();
             Console.WriteLine("What do you want to do? ");
             Console.WriteLine("\t[1] Create or start your custom workout.");
@@ -403,8 +423,9 @@ namespace BlainBowman_7M_workout_app
             }
             dbCon.Close();
         }
-                static void GetUserId()
+        static void GetUserId()
         {
+            //Sets the current user id
             if (dbCon.IsConnect())
             {
                 int count = 1;
@@ -421,10 +442,11 @@ namespace BlainBowman_7M_workout_app
         }
         static int GetWorkoutId(string workoutname)
         {
+            //Returns the workout id using workout name
             int count = 1;
             if (dbCon.IsConnect())
             {
-               
+
                 string query = "SELECT workout_id, name_of_the_workout FROM workouts";
                 var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
@@ -439,17 +461,23 @@ namespace BlainBowman_7M_workout_app
         }
         static void LogIn()
         {
+            //Application log in
             Console.Clear();
+            //Username and email validation are located in the validation class
             string username = Validation.ValidateUsernameOrEmail("Select your username or email: ", dbCon);
             currentUser = username;
             GetUserId();
             string password = Validation.ValidatePassword("Enter your password: ", dbCon, currentUserId);
+
         }
         public static void SignUp()
         {
+            //Application sign up
             Console.Clear();
             string name = Validation.ValidateString("Enter your name: ");
-            string username = Validation.ValidateUsername("Select your username: ",dbCon);
+            //Username validation is located in the validation class
+            string username = Validation.ValidateUsername("Select your username: ", dbCon);
+            //Email validation is located in the validation class
             string email = Validation.ValidateEmail("Enter your email : ", dbCon);
             string password = Validation.ValidateString("Select a password: ");
             if (dbCon.IsConnect())
@@ -461,9 +489,9 @@ namespace BlainBowman_7M_workout_app
                 cmd.Parameters.AddWithValue("@email", email);
                 cmd.Parameters.AddWithValue("@user_password", password);
                 cmd.ExecuteNonQuery();
-                Console.WriteLine("The user was entered successfully. Welcome {0}!",name);
+                Console.WriteLine("The user was entered successfully. Welcome {0}!", name);
             }
-            
+
             currentUser = username;
             GetUserId();
             Console.WriteLine("Type any key to continue...");
