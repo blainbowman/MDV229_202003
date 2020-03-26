@@ -443,7 +443,7 @@ namespace BlainBowman_7M_workout_app
             string username = Validation.ValidateUsernameOrEmail("Select your username or email: ", dbCon);
             currentUser = username;
             GetUserId();
-            
+            string password = Validation.ValidatePassword("Enter your password: ", dbCon, currentUserId);
         }
         public static void SignUp()
         {
