@@ -26,7 +26,7 @@ namespace BowmanBlain_ConvertedData
         static string _directory = @"../../../output/"; //directory to create file
         static void Main(string[] args)
         {
-
+            Console.OutputEncoding = Encoding.Unicode; //changing encoding to unicode
             MainMenu();
 
         }
@@ -296,7 +296,21 @@ namespace BowmanBlain_ConvertedData
                     case "4":
                     case "play a card game":
                         {
-                            Console.WriteLine("4.0  Data Visualization Practice");
+                            Console.WriteLine("• The game consists on one deck of cards, minus the jokers...52 cards.");
+                            Console.WriteLine("• It is a 4 player game.Each time the game is loaded, it will pull RANDOM four players from the database of restaurant reviewers.");
+                            Console.WriteLine("• The cards will be shuffled and handed out, one player at a time...13 cards to each player.");
+                            Console.WriteLine("• Once the entire deck has been handed out, all card values will be tallied up to see the winners of the game...");
+                            Console.WriteLine(" ");
+                            Console.WriteLine("Press Enter key to show next player's cards ...");
+                            Console.WriteLine(" ");
+                            Game();//"4.0  Data Visualization Practice"
+                            Console.WriteLine("Press The Space Bar To Play The Game Again or any key to back...");
+                            ConsoleKeyInfo cons = Console.ReadKey();
+                            if (cons.Key == ConsoleKey.Spacebar)
+                            {
+                                Game();
+                            }
+                            else break;
                         }
                         break;
                     case "5":
@@ -523,6 +537,13 @@ namespace BowmanBlain_ConvertedData
 
 
             }
+
+        }
+        private static void Game()
+        {
+            Game a = new Game();  //class instance creation 
+            a.getcards();  //void cards shuffled 
+            a.game(); //start the game
 
         }
     }

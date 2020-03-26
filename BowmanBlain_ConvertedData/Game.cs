@@ -131,7 +131,12 @@ namespace BowmanBlain_ConvertedData
                 Animation1.myAnimationTimer.Stop();
                 Console.ResetColor();
                 Console.WriteLine("");
+                totalchec += players[i].total; //score of all plaers
             }
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Score Checker: {0}", totalchec); //print score of all plaers
+            Console.WriteLine("");
         }
     }
 }
