@@ -37,5 +37,61 @@ namespace BlainBowman_7M_workout_app
             }
             MainMenu();
         }
+        public static void ShowTotalBodyExercises()
+        {
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT exercise_id, exercise_name FROM total_body_exercises";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("\t[{0}] {1}", reader.GetString(0), reader.GetString(1));
+                }
+                reader.Close();
+            }
+        }
+        public static void ShowLowerBodyExercises()
+        {
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT exercise_id, exercise_name FROM lower_body_exercises";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("\t[{0}] {1}", reader.GetString(0), reader.GetString(1));
+                }
+                reader.Close();
+            }
+        }
+        public static void ShowUpperBodyExercises()
+        {
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT exercise_id, exercise_name FROM upper_body_exercises";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("\t[{0}] {1}", reader.GetString(0), reader.GetString(1));
+                }
+                reader.Close();
+            }
+        }
+        public static void ShowCoreExercises()
+        {
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT exercise_id, exercise_name FROM core_exercises";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("\t[{0}] {1}", reader.GetString(0), reader.GetString(1));
+                }
+                reader.Close();
+            }
+        }
     }
 }
