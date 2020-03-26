@@ -9,7 +9,8 @@ namespace BlainBowman_7M_workout_app
     {
         static void Main(string[] args)
         {
-            
+            Menu.SignUpAndLogInMenu();
+            Console.ReadKey();
         }
     }
 }
