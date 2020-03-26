@@ -148,6 +148,51 @@ namespace BlainBowman_7M_workout_app
             Console.WriteLine("\t[1] Yes");
             Console.WriteLine("\t[2] No");
             int userOptionNumber = Validation.GetInt(1, 2, "Please, choose an option: ");
+            switch (userOptionNumber)
+            {
+                case 1:
+                    Console.Clear();
+                    string workoutname = Validation.ValidateString("Name your workout: ");
+                    int numberOfCycles = Validation.GetInt(1, 10, "Pick the number of cycles (1-10): ");
+                    int restInterval = Validation.GetInt(1, 60, "Pick the rest interval (1-60) seconds: ");
+
+                    if (dbCon.IsConnect())
+                    {
+                        string query = "INSERT INTO workouts(user_id, name_of_the_workout, rest_interval, number_of_cycles) VALUES(@user_id, @name_of_the_workout, @rest_interval, @number_of_cycles)";
+                        var cmd = new MySqlCommand(query, dbCon.Connection);
+                        cmd.Parameters.AddWithValue("@user_id", currentUserId);
+                        cmd.Parameters.AddWithValue("@name_of_the_workout", workoutname);
+                        cmd.Parameters.AddWithValue("@rest_interval", restInterval);
+                        cmd.Parameters.AddWithValue("@number_of_cycles", numberOfCycles);
+                        cmd.ExecuteNonQuery();
+
+                        query = "INSERT INTO custom_workout_exercises(workout_id, first_total_body_exercise, second_total_body_exercise, third_total_body_exercise, first_lower_body_exercise, second_lower_body_exercise, third_lower_body_exercise, first_upper_body_exercise, second_upper_body_exercise, third_upper_body_exercise, first_core_exercise, second_core_exercise, third_core_exercise) VALUES(@workout_id, @first_total_body_exercise, @second_total_body_exercise, @third_total_body_exercise, @first_lower_body_exercise, @second_lower_body_exercise, @third_lower_body_exercise, @first_upper_body_exercise, @second_upper_body_exercise, @third_upper_body_exercise, @first_core_exercise, @second_core_exercise, @third_core_exercise)";
+                        cmd = new MySqlCommand(query, dbCon.Connection);
+                        cmd.Parameters.AddWithValue("@workout_id", GetWorkoutId(workoutname));
+                        cmd.Parameters.AddWithValue("@first_total_body_exercise", first_total_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@second_total_body_exercise", second_total_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@third_total_body_exercise", third_total_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@first_lower_body_exercise", first_lower_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@second_lower_body_exercise", second_lower_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@third_lower_body_exercise", third_lower_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@first_upper_body_exercise", first_upper_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@second_upper_body_exercise", second_upper_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@third_upper_body_exercise", third_upper_body_exercise_number);
+                        cmd.Parameters.AddWithValue("@first_core_exercise", first_core_exercise_number);
+                        cmd.Parameters.AddWithValue("@second_core_exercise", second_core_exercise_number);
+                        cmd.Parameters.AddWithValue("@third_core_exercise", third_core_exercise_number);
+                        cmd.ExecuteNonQuery();
+                        Console.WriteLine("The workout was added successfully.");
+                        Console.WriteLine("Type any key to continue...");
+                        Console.ReadKey();
+                        ShowCustomWorkouts();
+                    }
+
+                    break;
+                case 2:
+                    MainMenu();
+                    break;
+            }
         }
         }
 }
