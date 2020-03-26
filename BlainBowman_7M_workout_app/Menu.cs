@@ -403,5 +403,71 @@ namespace BlainBowman_7M_workout_app
             }
             dbCon.Close();
         }
+                static void GetUserId()
+        {
+            if (dbCon.IsConnect())
+            {
+                int count = 1;
+                string query = "SELECT user_id, username FROM users";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (currentUser == reader.GetString(1)) { currentUserId = count; }
+                    count++;
+                }
+                reader.Close();
+            }
+        }
+        static int GetWorkoutId(string workoutname)
+        {
+            int count = 1;
+            if (dbCon.IsConnect())
+            {
+               
+                string query = "SELECT workout_id, name_of_the_workout FROM workouts";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (workoutname == reader.GetString(1)) { reader.Close(); return count; }
+                    count++;
+                }
+                reader.Close();
+            }
+            return count;
+        }
+        static void LogIn()
+        {
+            Console.Clear();
+            string username = Validation.ValidateUsernameOrEmail("Select your username or email: ", dbCon);
+            currentUser = username;
+            GetUserId();
+            
+        }
+        public static void SignUp()
+        {
+            Console.Clear();
+            string name = Validation.ValidateString("Enter your name: ");
+            string username = Validation.ValidateUsername("Select your username: ",dbCon);
+            string email = Validation.ValidateEmail("Enter your email : ", dbCon);
+            string password = Validation.ValidateString("Select a password: ");
+            if (dbCon.IsConnect())
+            {
+                string query = "INSERT INTO users(name, username, email, user_password) VALUES(@name, @username, @email, @user_password)";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@user_password", password);
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("The user was entered successfully. Welcome {0}!",name);
+            }
+            
+            currentUser = username;
+            GetUserId();
+            Console.WriteLine("Type any key to continue...");
+            Console.ReadKey();
+        }
     }
 }
