@@ -194,5 +194,73 @@ namespace BlainBowman_7M_workout_app
                     break;
             }
         }
+        public static string GetTotalBodyExerciseName(int id)
+        {
+            string result = "";
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT exercise_name FROM total_body_exercises WHERE exercise_id=" + id + ";";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var newReader = cmd.ExecuteReader();
+                while (newReader.Read())
+                {
+                    result = newReader.GetString(0);
+                }
+                newReader.Close();
+
+            }
+            return result;
         }
+        public static string GetLowerBodyExerciseName(int id)
+        {
+            string result = "";
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT exercise_name FROM lower_body_exercises WHERE exercise_id=" + id + ";";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var newReader = cmd.ExecuteReader();
+                while (newReader.Read())
+                {
+                    result = newReader.GetString(0);
+                }
+                newReader.Close();
+
+            }
+            return result;
+        }
+        public static string GetUpperBodyExerciseName(int id)
+        {
+            string result = "";
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT exercise_name FROM upper_body_exercises WHERE exercise_id=" + id + ";";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var newReader = cmd.ExecuteReader();
+                while (newReader.Read())
+                {
+                    result = newReader.GetString(0);
+                }
+                newReader.Close();
+
+            }
+            return result;
+        }
+        public static string GetCoreExerciseName(int id)
+        {
+            string result = "";
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT exercise_name FROM core_exercises WHERE exercise_id=" + id + ";";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var newReader = cmd.ExecuteReader();
+                while (newReader.Read())
+                {
+                    result = newReader.GetString(0);
+                }
+                newReader.Close();
+
+            }
+            return result;
+        }
+    }
 }
