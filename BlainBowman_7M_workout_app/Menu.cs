@@ -262,5 +262,61 @@ namespace BlainBowman_7M_workout_app
             }
             return result;
         }
+        public static void ShowWorkoutExercises(int workout_id)
+        {
+            Console.Clear();
+            List<int> exercises = new List<int>();
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT workout_id, user_id, name_of_the_workout, rest_interval, number_of_cycles FROM workouts";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (workout_id.ToString() == reader.GetString(0) && currentUserId.ToString() == reader.GetString(1))
+                    {
+                        Console.WriteLine("User: {0}", currentUser);
+                        Console.WriteLine("Name of the workout: {0}", reader.GetString(2));
+                        Console.WriteLine("Rest interval: {0}", reader.GetString(3));
+                        Console.WriteLine("Number of cycles: {0}", reader.GetString(4));
+                    }
+                }
+                reader.Close();
+                Console.WriteLine("Exercises: ");
+                query = "SELECT * FROM custom_workout_exercises WHERE custom_workout_exercises_id=" + workout_id + ";";
+                cmd = new MySqlCommand(query, dbCon.Connection);
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    exercises.Add(Convert.ToInt32(reader.GetString(2)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(3)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(4)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(5)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(6)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(7)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(8)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(9)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(10)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(11)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(12)));
+                    exercises.Add(Convert.ToInt32(reader.GetString(13)));
+
+
+                }
+                reader.Close();
+                Console.WriteLine("  1.{0}", GetTotalBodyExerciseName(exercises[0]));
+                Console.WriteLine("  2.{0}", GetTotalBodyExerciseName(exercises[1]));
+                Console.WriteLine("  3.{0}", GetTotalBodyExerciseName(exercises[2]));
+                Console.WriteLine("  4.{0}", GetLowerBodyExerciseName(exercises[3]));
+                Console.WriteLine("  5.{0}", GetLowerBodyExerciseName(exercises[4]));
+                Console.WriteLine("  6.{0}", GetLowerBodyExerciseName(exercises[5]));
+                Console.WriteLine("  7.{0}", GetUpperBodyExerciseName(exercises[6]));
+                Console.WriteLine("  8.{0}", GetUpperBodyExerciseName(exercises[7]));
+                Console.WriteLine("  9.{0}", GetUpperBodyExerciseName(exercises[8]));
+                Console.WriteLine("  10.{0}", GetUpperBodyExerciseName(exercises[9]));
+                Console.WriteLine("  11.{0}", GetUpperBodyExerciseName(exercises[10]));
+                Console.WriteLine("  12.{0}", GetUpperBodyExerciseName(exercises[11]));
+            }
+        }
     }
 }
