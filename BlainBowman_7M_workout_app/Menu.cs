@@ -93,5 +93,61 @@ namespace BlainBowman_7M_workout_app
                 reader.Close();
             }
         }
-    }
+        public static void AddWorkout()
+        {
+            Console.Clear();
+            Console.WriteLine("Pick 3 total body exercises (0/3): ");
+            ShowTotalBodyExercises();
+            int first_total_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 total body exercises (1/3): ");
+            ShowTotalBodyExercises();
+            int second_total_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 total body exercises (2/3): ");
+            ShowTotalBodyExercises();
+            int third_total_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 lower body exercises (0/3): ");
+            ShowLowerBodyExercises();
+            int first_lower_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 lower body exercises (1/3): ");
+            ShowLowerBodyExercises();
+            int second_lower_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 lower body exercises (2/3): ");
+            ShowLowerBodyExercises();
+            int third_lower_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 upper body exercises (0/3): ");
+            ShowUpperBodyExercises();
+            int first_upper_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 upper body exercises (1/3): ");
+            ShowUpperBodyExercises();
+            int second_upper_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 upper body exercises (2/3): ");
+            ShowUpperBodyExercises();
+            int third_upper_body_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 core exercises (0/3): ");
+            ShowCoreExercises();
+            int first_core_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 core exercises (1/3): ");
+            ShowCoreExercises();
+            int second_core_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Pick 3 core exercises (2/3): ");
+            ShowCoreExercises();
+            int third_core_exercise_number = Validation.GetInt(1, 15, "Please, choose an option: ");
+            Console.Clear();
+            Console.WriteLine("Confirm the workout order?");
+            Console.WriteLine("\t[1] Yes");
+            Console.WriteLine("\t[2] No");
+            int userOptionNumber = Validation.GetInt(1, 2, "Please, choose an option: ");
+        }
+        }
 }
