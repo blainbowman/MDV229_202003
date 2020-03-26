@@ -318,5 +318,90 @@ namespace BlainBowman_7M_workout_app
                 Console.WriteLine("  12.{0}", GetUpperBodyExerciseName(exercises[11]));
             }
         }
+        public static void ShowCustomWorkouts()
+        {
+            Console.Clear();
+            int count = 1;
+            if (dbCon.IsConnect())
+            {
+                string query = "SELECT name_of_the_workout FROM workouts";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                Console.WriteLine("{0}'s Workouts: ", currentUser);
+                while (reader.Read())
+                {
+                    Console.WriteLine("\t[{0}] {1}", count, reader.GetString(0));
+                    count++;
+                }
+                reader.Close();
+
+            }
+            if (count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("There is no available workouts. Would you like to add one ?");
+                Console.WriteLine("\t[1] Yes");
+                Console.WriteLine("\t[2] No");
+                int addWorkoutOptionNumber = Validation.GetInt(1, 2, "Please, choose an option: ");
+                switch (addWorkoutOptionNumber)
+                {
+                    case 1:
+                        AddWorkout();
+                        break;
+                    case 2:
+                        MainMenu();
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("\t[{0}] Add a new workout.", count++);
+                Console.WriteLine("\t[{0}] Back to the main menu.", count);
+                int userOptionNumber = Validation.GetInt(1, count, "Please, choose an option: ");
+                if (userOptionNumber == count - 1) { AddWorkout(); }
+                if (userOptionNumber == count) { MainMenu(); }
+                ShowWorkoutExercises(userOptionNumber);
+                Console.WriteLine("Would you like to start the workout ?");
+                Console.WriteLine("\t[1] Yes");
+                Console.WriteLine("\t[2] No");
+                int startWorkoutOptionNumber = Validation.GetInt(1, 2, "Please, choose an option: ");
+                switch (startWorkoutOptionNumber)
+                {
+                    case 1:
+                        StartWorkout();
+                        break;
+                    case 2:
+                        MainMenu();
+                        break;
+                }
+            }
+        }
+        public static void StartWorkout()
+        {
+            MainMenu();
+        }
+        public static void MainMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("What do you want to do? ");
+            Console.WriteLine("\t[1] Create or start your custom workout.");
+            // Console.WriteLine("\t[2] Start pre-selected workout.");           
+            // Console.WriteLine("\t[3] Check your progress.");
+            // Console.WriteLine("\t[4] Go to the settings.");
+            Console.WriteLine("\t[2] Exit the program.");
+            int userOptionNumber = Validation.GetInt(1, 5, "Please, choose an option: ");
+            switch (userOptionNumber)
+            {
+
+                case 1:
+                    ShowCustomWorkouts();
+                    break;
+                case 2:
+                    dbCon.Close();
+                    Environment.Exit(1);
+                    break;
+            }
+            dbCon.Close();
+        }
     }
 }
